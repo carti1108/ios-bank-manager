@@ -1,5 +1,5 @@
 //
-//  CustomerProtocol.swift
+//  Customer.swift
 //
 //
 //  Created by Kiseok on 11/15/23.
