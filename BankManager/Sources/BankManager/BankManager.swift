@@ -1,14 +1,7 @@
 import Foundation
 
-public struct BankManager {
-
-    public init() {
-    }
+public protocol BankManagerProtocol {
+    associatedtype T: CustomerProtocol
     
-    public func giveWaitingTicket(customerNumber: Double, customerLine: CustomerQueue<Customer>) {
-        for i in 1...Int(customerNumber) {
-            let customer = Customer(watingTicket: i)
-            customerLine.enqueue(data: customer)
-        }
-    }
+    func giveWaitingTicket(customerNumber: Int, customerLine: CustomerQueue<T>)
 }

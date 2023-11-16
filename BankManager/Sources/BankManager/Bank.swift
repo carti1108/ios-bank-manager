@@ -6,18 +6,21 @@
 //
 import Foundation
 
-public struct Bank {
-    public let bankClerk: BankClerk = BankClerk()
-    public let bankManager: BankManager = BankManager()
-    public let bankClerkCount: Int
-    public let customerNumber = Double.random(in: 10...30)
-    public let customerLine: CustomerQueue<Customer>
+public protocol BankProtocol {
+    associatedtype customerType: CustomerProtocol
+    associatedtype bankClerkType: BankClerkProtocol
+    associatedtype bankManagerType: BankManagerProtocol
     
-    public init(bankClerkCount: Int, customerLine: CustomerQueue<Customer>) {
-        self.bankClerkCount = bankClerkCount
-        self.customerLine = customerLine
-    }
+    var bankClerk: bankClerkType { get }
+    var bankManager: bankManagerType { get }
+    var customerNumber: Int { get }
+    var customerLine: CustomerQueue<bankManagerType.T> { get }
     
+    func open()
+    func close()
+}
+
+extension BankProtocol {
     public func open() {
         bankManager.giveWaitingTicket(customerNumber: self.customerNumber,
                                       customerLine: self.customerLine
