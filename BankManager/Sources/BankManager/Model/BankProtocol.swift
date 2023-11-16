@@ -6,26 +6,18 @@
 //
 import Foundation
 
-public protocol BankProtocol {
-    associatedtype bankClerkType: BankClerkProtocol
+public struct Bank {
     
-    var bankClerk: bankClerkType { get }
-    var bankClerkCount: Int { get }
-    var bankManager: BankManager { get }
-    var customerNumber: Int { get }
-    var customerLine: CustomerQueue<Customer> { get }
+    public var bankClerk: BankClerkProtocol
+    public var bankClerkCount: Int
+    public var bankManager: BankManager = BankManager()
+    public var customerNumber: Int = Int.random(in: 10...30)
+    public var customerLine: CustomerQueue<Customer>
     
-    func open()
-    func close()
-}
-
-extension BankProtocol {
-    public var customerNumber: Int {
-        return Int.random(in: 10...30)
-    }
-    
-    public var bankManager: BankManager {
-        return BankManager()
+    public init(bankClerk: BankClerkProtocol, bankClerkCount: Int, customerLine: CustomerQueue<Customer>) {
+        self.bankClerk = bankClerk
+        self.bankClerkCount = bankClerkCount
+        self.customerLine = customerLine
     }
     
     public func open() {
