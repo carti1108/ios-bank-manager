@@ -7,7 +7,6 @@
 import Foundation
 
 public struct Bank {
-    
     public var bankClerk: BankClerkProtocol
     public var bankClerkCount: Int
     public var bankManager: BankManager = BankManager()
