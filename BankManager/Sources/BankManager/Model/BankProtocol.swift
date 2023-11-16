@@ -28,10 +28,6 @@ extension BankProtocol {
         return BankManager()
     }
     
-    public var customerLine: CustomerQueue<Customer> {
-        return CustomerQueue(queue: LinkedList<Customer>())
-    }
-    
     public func open() {
         bankManager.giveWaitingTicket(customerNumber: self.customerNumber,
                                       customerLine: self.customerLine

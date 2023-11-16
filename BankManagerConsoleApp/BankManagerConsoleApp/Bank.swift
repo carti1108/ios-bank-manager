@@ -14,8 +14,10 @@ struct Bank: BankProtocol {
     
     let bankClerk: BankClerk = BankClerk()
     let bankClerkCount: Int
+    let customerLine: CustomerQueue<Customer>
     
-    init(bankClerkCount: Int) {
+    init(bankClerkCount: Int, customerLine: CustomerQueue<Customer>) {
         self.bankClerkCount = bankClerkCount
+        self.customerLine = customerLine
     }
 }
