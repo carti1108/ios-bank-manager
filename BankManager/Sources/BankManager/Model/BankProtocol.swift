@@ -8,10 +8,9 @@ import Foundation
 
 public protocol BankProtocol {
     associatedtype bankClerkType: BankClerkProtocol
-    associatedtype bankManagerType: BankManagerProtocol
     
     var bankClerk: bankClerkType { get }
-    var bankManager: bankManagerType { get }
+    var bankManager: BankManager { get }
     var customerNumber: Int { get }
     var customerLine: CustomerQueue<Customer> { get }
     
