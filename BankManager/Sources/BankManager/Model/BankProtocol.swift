@@ -10,6 +10,7 @@ public protocol BankProtocol {
     associatedtype bankClerkType: BankClerkProtocol
     
     var bankClerk: bankClerkType { get }
+    var bankClerkCount: Int { get }
     var bankManager: BankManager { get }
     var customerNumber: Int { get }
     var customerLine: CustomerQueue<Customer> { get }
@@ -21,6 +22,14 @@ public protocol BankProtocol {
 extension BankProtocol {
     public var customerNumber: Int {
         return Int.random(in: 10...30)
+    }
+    
+    public var bankManager: BankManager {
+        return BankManager()
+    }
+    
+    public var customerLine: CustomerQueue<Customer> {
+        return CustomerQueue(queue: LinkedList<Customer>())
     }
     
     public func open() {
