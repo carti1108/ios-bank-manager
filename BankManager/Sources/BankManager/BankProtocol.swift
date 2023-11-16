@@ -1,5 +1,5 @@
 //
-//  Bank.swift
+//  BankProtocol.swift
 //
 //
 //  Created by Kiseok on 11/15/23.
