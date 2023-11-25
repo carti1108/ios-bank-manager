@@ -7,12 +7,6 @@ struct BankManager {
                 waitingTicket: i,
                 bankingCategory: BankingCategory.allCases.randomElement() ?? .deposit
             )
-
-            if customer.bankingCategory == .loan {
-                loanLine.enqueue(customer)
-            } else {
-                depositLine.enqueue(customer)
-            }
             
             switch customer.bankingCategory {
             case .deposit:
