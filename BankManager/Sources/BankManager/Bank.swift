@@ -19,17 +19,17 @@ public struct Bank {
     
     public init() {}
     
-    public func open() {
+    public func open(_ completion: @escaping () -> Void) {
         bankManager.giveWaitingTicketAndLineUp(
             customerNumber: customerNumber,
             depositLine: depositLine,
             loanLine: loanLine
         )
-        
-        bankClerkTask()
+
+        bankClerkTask(completion)
     }
     
-    private func bankClerkTask() {
+    private func bankClerkTask(_ completion: @escaping () -> Void) {
         Task {
             let taskStart = CFAbsoluteTimeGetCurrent()
             while depositLine.hasCustomer != 0 || loanLine.hasCustomer != 0 {
@@ -59,10 +59,7 @@ public struct Bank {
             let taskEnd = CFAbsoluteTimeGetCurrent() - taskStart
             
             close(time: taskEnd)
-            NotificationCenter.default.post(
-                name: Bank.notificationName,
-                object: nil
-            )
+            completion()
         }
     }
     
