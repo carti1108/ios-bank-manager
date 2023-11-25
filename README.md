@@ -87,8 +87,10 @@ Task {
 ```
 </details>
 
+---
+
 #### 2. 은행 업무가 모두 종료되기 전 시작 메뉴가 출력되는 문제
-NotificationCenter를 통하여 은행업무가 종료되는 시점에 post하고 addObserver를 통해 시작 메뉴를 출력하도록 구현
+- NotificationCenter를 통하여 은행업무가 종료되는 시점에 post하고 addObserver를 통해 시작 메뉴를 출력하도록 구현하는 방식
 
 <details>
 <summary>코드</summary>
@@ -114,6 +116,70 @@ case "1":
         }
 ```
 </details>
+
+- Escaping Closure를 활용하여 메뉴 출력하는 함수를 전달하도록 구현하는 방식
+
+<details>
+<summary>코드</summary>
+
+```swift
+    public func open(_ completion: @escaping () -> Void) {
+        bankManager.giveWaitingTicketAndLineUp(
+            customerNumber: customerNumber,
+            depositLine: depositLine,
+            loanLine: loanLine
+        )
+
+        bankClerkTask(completion)
+    }
+    
+    private func bankClerkTask(_ completion: @escaping () -> Void) {
+        Task {
+            let taskStart = CFAbsoluteTimeGetCurrent()
+            while depositLine.hasCustomer != 0 || loanLine.hasCustomer != 0 {
+                await withTaskGroup(of: Void.self) { group in
+                    group.addTask {
+                        guard let loanCustomer = loanLine.dequeue() else {
+                            return
+                        }
+                        await firstBankClerk.startTask(with: loanCustomer)
+                    }
+                    
+                    group.addTask {
+                        guard let depositCustomer = depositLine.dequeue() else {
+                            return
+                        }
+                        await secondBankClerk.startTask(with: depositCustomer)
+                    }
+                    
+                    group.addTask {
+                        guard let depositCustomer = depositLine.dequeue() else {
+                            return
+                        }
+                        await thirdBankClerk.startTask(with: depositCustomer)
+                    }
+                }
+            }
+            let taskEnd = CFAbsoluteTimeGetCurrent() - taskStart
+            
+            close(time: taskEnd)
+            completion()
+        }
+    }
+```
+
+```swift
+case "1":
+    bank.open {
+        start()
+    }
+```
+</details>
+
+
+NotificationCenter는 1:다 상황에서 용이하다고 판단<br>따라서 escaping closure를 활용하는 방식으로 구현
+
+---
 
 ### RunLoop 관련
 #### 1. 은행개점 메뉴 선택 시 프로그램이 바로 종료되는 문제
