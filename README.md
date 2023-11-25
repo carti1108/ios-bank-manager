@@ -177,7 +177,7 @@ case "1":
 </details>
 
 
-NotificationCenter는 1:다 상황에서 용이하다고 판단<br>따라서 escaping closure를 활용하는 방식으로 구현
+NotificationCenter는 여러 곳에 전파하는 경우에 더 적합하다고 판단<br>지금 프로젝트 상 여러 곳에 전파 할 상황은 없다고 생각하여 escaping closure를 활용하는 방식으로 구현
 
 ---
 
